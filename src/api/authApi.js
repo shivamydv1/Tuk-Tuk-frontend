@@ -11,17 +11,6 @@ export const guestLogin = async () => {
   }
 };
 
-// ── Email / Password Login ──────────────────────────────────
-export const emailLogin = async (email, password) => {
-  const response = await API.post("/api/auth/login", { email, password });
-  return response.data;
-};
-
-// ── Email / Password Register ───────────────────────────────
-export const emailRegister = async (name, email, password) => {
-  const response = await API.post("/api/auth/register", { name, email, password });
-  return response.data;
-};
 
 // ── Firebase Phone Auth (Replaces Twilio) ───────────────────
 // Backend endpoint: /api/auth/firebase-phone

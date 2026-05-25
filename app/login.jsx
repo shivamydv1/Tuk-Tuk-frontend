@@ -314,26 +314,20 @@ export default function Login() {
   const [gRequest, gResponse, gPromptAsync] = Google.useAuthRequest({
     // IMPORTANT: For Expo Go, we MUST use Web Client ID on all platforms
     clientId: "807444567658-l9gq0ophos92739p6o9vjms7kmq0407o.apps.googleusercontent.com",
+    iosClientId: "807444567658-l9gq0ophos92739p6o9vjms7kmq0407o.apps.googleusercontent.com",
+    androidClientId: "807444567658-l9gq0ophos92739p6o9vjms7kmq0407o.apps.googleusercontent.com",
     scopes: ["profile", "email"],
     responseType: "id_token",
-    redirectUri: Platform.select({
-      web: "http://localhost:8081/login",
-      default: "https://auth.expo.io/@anonymous/Tuk-Tuk-ef06b856-4c91-4d1d-8b01-38e41183c57e",
-    }),
   });
 
   // Facebook Auth Session
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: "999372849281178",
-    redirectUri: Platform.select({
-      web: typeof window !== 'undefined' ? window.location.origin + "/login" : "http://localhost:8081/login",
-      default: "https://auth.expo.io/@anonymous/Tuk-Tuk-ef06b856-4c91-4d1d-8b01-38e41183c57e",
-    }),
   });
 
   const handleGoogleLogin = async () => {
     if (!requireAccepted()) return;
-    const result = await gPromptAsync(Platform.select({ web: { useProxy: false }, default: { useProxy: true } }));
+    const result = await gPromptAsync();
     console.log("Google Login Result:", result);
     if (result?.type === "success") {
       const idToken = result.authentication?.idToken || result.params?.id_token;
@@ -345,7 +339,7 @@ export default function Login() {
 
   const handleFacebookLogin = async () => {
     if (!requireAccepted()) return;
-    const result = await fbPromptAsync(Platform.select({ web: { useProxy: false }, default: { useProxy: true } }));
+    const result = await fbPromptAsync();
     console.log("Facebook Login Result:", result);
     if (result?.type === "success") {
       const accessToken = result.authentication?.accessToken || result.params?.access_token;
